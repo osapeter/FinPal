@@ -1,21 +1,33 @@
-const express = require('express');
 const mongoose = require('mongoose');
+const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
 
 const app = express();
+const PORT = 10000;
+
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-const userRoutes = require('./routes/userRoutes');
-const savingsRoutes = require('./routes/savingsRoutes');
-const chatbotRoutes = require('./routes/chatbotRoutes');
+// MongoDB connection
+const mongoURI = 'your-mongodb-uri-here'; // Replace with your MongoDB URI
 
-app.use('/api/users', userRoutes);
-app.use('/api/savings', savingsRoutes);
-app.use('/api/chatbot', chatbotRoutes);
+async function connectToDatabase() {
+  try {
+    await mongoose.connect(mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('Connected to MongoDB');
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error);
+    process.exit(1); // Exit the process if the connection fails
+  }
+}
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true }, () => console.log('Connected to MongoDB'));
+connectToDatabase();
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
