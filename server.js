@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB connection
-const mongoURI = 'your-mongodb-uri-here'; // Replace with your MongoDB URI
+const mongoURI = 'mongodb+srv://findb:<db_password>@cluster0.ok0c3pr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'; // Replace with your MongoDB URI
 
 async function connectToDatabase() {
   try {
